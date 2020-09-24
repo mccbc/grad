@@ -1,0 +1,20 @@
+date: 2020 09 07
+name: Connor McClellan
+presenter: Deven Bhakta
+
+
+start:
+ - consider revisiting your jargon definitions throughout the talk. Some listeners may have forgotten what they mean
+
+stop:
+ - If you misspeak, just restate what you're trying to say without pausing --- I guarantee nobody will notice.
+
+continue:
+ - describing what you're going to do before you start the talk
+ - giving an overview slide
+ - defining jargon in advance
+ - delivering the information slowly and methodically, without speaking too quickly. You have a great presentation demeanor!
+
+comments:
+ - can you have a signal that is periodic, but not deterministic? My thought is that quasi-periodic signals have stochastic variations about a primary signal source, but those may be not strictly periodic by definition
+
