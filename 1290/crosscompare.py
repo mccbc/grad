@@ -1,6 +1,5 @@
 import pandas as pd
 import argparse
-from html.parser import HTMLParser
 import pdb
 
 parser = argparse.ArgumentParser()
