@@ -11,23 +11,36 @@ args = parser.parse_args()
 your_username = 'mccbc'
 ###
 
+# Scrape HTML from github
 with urllib.request.urlopen('https://github.com/'+your_username) as f:
     lines = [line.decode('utf-8') for line in f.readlines()]
     f.close()
 
-commits_today = 0 
+# Check the number of commits this month from the scraped HTML
+commits = 0 
 for i, line in enumerate(lines): 
     if 'commit' in line and '>' not in line: 
         try: 
             print('Repository: ', lines[i-1].split('href="/'+your_username+'/')[1].split('/commits?')[0]) 
             print(lines[i]) 
-            commits_today += int(lines[i].lstrip()[0])
+            commits += int(lines[i].lstrip()[0])
         except: 
             pass 
 
-print('Total commits today: {}'.format(commits_today))
+# Load running count from last time this script was run
+with open('count.txt', 'r') as f:
+    previous_commits = int(f.read()) # Will need to reset this every month...
+    new_commits = commits - previous_commits
 
-if commits_today == 0:
+with open('count.txt', 'w') as f:
+    f.write(str(commits))
+
+# Print some statistics
+print('Total commits this month: {}'.format(commits))
+print('Previous commits: {}'.format(previous_commits))
+print('New commits: {}'.format(new_commits))
+
+if new_commits == 0:
     msg = EmailMessage()
     msg.set_content('You have not committed to any repositories today!')
     msg['Subject'] = '['+your_username+'] Git Commit Reminder'
