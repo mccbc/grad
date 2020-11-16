@@ -12,7 +12,7 @@ parser.add_argument(
 parser.add_argument(
     '-e',
     '--email',
-    type=bool,
+    action='store_true',
     help='Send an email if there are no new commits')
 args = parser.parse_args()
 
