@@ -67,7 +67,7 @@ if args.email:
     if new_commits == 0:
         msg.set_content('You have not committed to any repositories today!')
         send_message(msg)
-    elif new_commis < 0:
+    elif new_commits < 0:
         msg.set_content('The running total needs to be reset for this month.')
         send_message(msg)
     else:
