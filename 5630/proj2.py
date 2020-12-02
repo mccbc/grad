@@ -53,18 +53,17 @@ for i in range(1, n_bins + 1):
         # Collect galaxies in this cluster by matching cluster ID
         galaxies = galaxy_data[galaxy_data[:, 10] == clusters[j, 0]]
 
-        # Calculate the distance of each galaxy to the cluster center
+        # Get distance information
         r_gal = galaxies[:, 3]
         r_c = clusters[j, 5]
-        d_los = np.abs(r_gal - r_c)  # Line-of-sight distance
 
-        # Get sky-projected distance
+        # Get angle between galaxy and cluster center
         dRA = (galaxies[:, 0] - clusters[j, 1]) * np.pi / 180.
         dDEC = (galaxies[:, 1] - clusters[j, 2]) * np.pi / 180.
-        d_sky = r_gal * np.sqrt(dRA**2 + dDEC**2)  # Distance on sky in same units as r_gal
+        theta = np.arccos(np.cos(dRA)*np.cos(dDEC))
 
         # Distance from galaxies in this sample to this cluster's center
-        d = np.sqrt(d_los**2 + d_sky**2)
+        d = np.sqrt(r_gal**2 + r_c**2 - 2.*r_gal*r_c*np.cos(theta))
         is_elliptical = galaxies[:, 9] == 2
 
         # Add data from this cluster to the mass group's data
