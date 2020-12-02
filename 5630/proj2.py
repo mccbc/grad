@@ -58,9 +58,11 @@ for i in range(1, n_bins + 1):
         r_c = clusters[j, 5]
 
         # Get angle between galaxy and cluster center
-        dRA = (galaxies[:, 0] - clusters[j, 1]) * np.pi / 180.
-        dDEC = (galaxies[:, 1] - clusters[j, 2]) * np.pi / 180.
-        theta = np.arccos(np.cos(dRA)*np.cos(dDEC))
+        RA_gal = galaxies[:, 0] * np.pi / 180.
+        RA_cluster = clusters[j, 1] * np.pi / 180.
+        DEC_gal = galaxies[:, 1] * np.pi / 180.
+        DEC_cluster = clusters[j, 2] * np.pi / 180.
+        theta = np.arccos(np.sin(DEC_gal)*np.sin(DEC_cluster) + np.cos(DEC_gal)*np.cos(DEC_cluster)*np.cos(RA_gal - RA_cluster))
 
         # Distance from galaxies in this sample to this cluster's center
         d = np.sqrt(r_gal**2 + r_c**2 - 2.*r_gal*r_c*np.cos(theta))
