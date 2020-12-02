@@ -1,4 +1,3 @@
-import pdb
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.pylab as pl
@@ -33,10 +32,7 @@ cluster_masses = cluster_masses[np.logical_and(
     cluster_masses >= 1e14, cluster_distances <= 225)]
 
 # Make mass bins, if necessary
-mass_bins = np.logspace(
-    np.log10(
-        min(cluster_masses)), np.log10(
-            max(cluster_masses)), n_bins + 1)
+mass_bins = np.logspace(np.log10(min(cluster_masses)), np.log10(max(cluster_masses)), n_bins + 1)
 inds = np.digitize(cluster_masses, mass_bins)
 
 colors = pl.cm.jet(np.linspace(0, 1, n_bins))
@@ -65,8 +61,7 @@ for i in range(1, n_bins + 1):
         # Get sky-projected distance
         dRA = (galaxies[:, 0] - clusters[j, 1]) * np.pi / 180.
         dDEC = (galaxies[:, 1] - clusters[j, 2]) * np.pi / 180.
-        c = np.arccos(np.cos(dRA) * np.cos(dDEC))  # Distance on sky in radians
-        d_sky = r_gal * c  # Distance on sky in same units as r_gal
+        d_sky = r_gal * np.sqrt(dRA**2 + dDEC**2)  # Distance on sky in same units as r_gal
 
         # Distance from galaxies in this sample to this cluster's center
         d = np.sqrt(d_los**2 + d_sky**2)
@@ -78,11 +73,7 @@ for i in range(1, n_bins + 1):
 
     # Bin by distance to create x and y data
     n_dist_bins = 50
-    try:
-        #dist_bins = np.logspace(np.log10(min(center_distances)), np.log10(max(center_distances)), n_dist_bins)
-        dist_bins = np.linspace(0, 10, n_dist_bins)
-    except BaseException:
-        pdb.set_trace()
+    dist_bins = np.linspace(0, 10, n_dist_bins)
     dist_inds = np.digitize(center_distances, dist_bins)
 
     # Find fraction of ellipticals in each distance bin
@@ -93,34 +84,17 @@ for i in range(1, n_bins + 1):
     for k in range(1, len(dist_bins)):
 
         #    rule = dist_inds == k
-        rule = dist_inds <= k
+        rule = dist_inds <= k # Cumulative
         if len(elliptical_flags[rule]) > 10:
-            frac_ellip.append(
-                sum(elliptical_flags[rule]) / len(elliptical_flags[rule]))
+            frac = sum(elliptical_flags[rule]) / len(elliptical_flags[rule])
+            frac_ellip.append(frac)
             bincenters.append(all_bincenters[k - 1])
 
     # Plot results
-    ax.plot(bincenters,
-            frac_ellip,
-            alpha=0.75,
-            c=colors[i - 1],
-            lw=1,
-            marker='o',
-            markersize=2,
-            label=r'{} $< \rm M_{{200}} < $ {} $\rm M_{{\odot}}$'.format(scinot(mass_bins[i - 1] * 1e14),
-                                                                         scinot(mass_bins[i] * 1e14)))
-
+    ax.plot(bincenters, frac_ellip, alpha=0.75, c=colors[i - 1], lw=1, marker='o', markersize=2, label=r'{} $< \rm M_{{200}} < $ {} $\rm M_{{\odot}}$'.format(scinot(mass_bins[i - 1]), scinot(mass_bins[i])))
 
 if n_bins > 1:
-    sm = plt.cm.ScalarMappable(
-        cmap=pl.cm.jet,
-        norm=plt.Normalize(
-            vmin=min(
-                cluster_masses *
-                1e14),
-            vmax=max(
-                cluster_masses *
-                1e14)))
+    sm = plt.cm.ScalarMappable(cmap=pl.cm.jet, norm=plt.Normalize( vmin=min(cluster_masses), vmax=max(cluster_masses)))
     cbar = fig.colorbar(sm)
     cbar.ax.set_ylabel(r'Cluster Mass ($\rm M_{\odot}$)', rotation=90)
 ax.set_xlabel(r'$\rm d_{center}\ (\rm Mpc\ h^{-1})$')
