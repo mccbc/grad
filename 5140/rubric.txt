@@ -1,0 +1,34 @@
+100 pts total
+
+Tasks:
+
+1. 10 pts available
+
+10  Student has derived/used the correct expression for v_rot
+ 7  Student attempted a derivation but got it wrong
+ 0  Derivation is not included in writing or in code
+
+2. 10 pts available
+
+10  Student has derived/used the correct expression for Prot
+ 7  Student has attempted a derivation but got it wrong
+ 0  Derivation is not included in writing or in code
+
+3. 80 pts available
+
+a. Calculate the rotational period of each star in the dataset (30 pts)
+
+30  Student correctly matches the catalog and derives Prot with errors
+20  Student gets Prot but does not track uncertainties
+15  Code does not successfully calculate Prot, but an attempt is made
+ 0  No submission
+
+b. Make a plot showing this rotational period as a function of effective temperature (40 pts)
+
+40  Plot shows both sets of errorbars and student has made appropriate coding decisions to produce a sensible plot
+35  Plot shows only one set of errorbars, either in x direction or y direction
+30  Plot has no error bars
+20  Plot does not show the correct data
+
+c. Address what kinds of stars show increased rotational velocities (5 pts)
+d. Fit a function to the data (5 pts)

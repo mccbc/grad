@@ -1,0 +1,37 @@
+Total points available: 105
+
+1. Downloading the data (10 pts)
+  5 pts   Has formulated a sensible query and entered the correct fields
+  5 pts   Uses the half-light radius in the "Degree" field of the query in the right units
+
+2. Cleaning the data (5 pts)
+  5 pts   Makes sensible cuts to remove sources with missing data fields
+  (+5 BONUS) Uses Lindegren & Riello cuts to filter data further
+
+3. Initial plots (15 pts)
+   3/4 needed for full credit, capped at 15 pts
+
+  5 pts   CMD (G v. G-G_RP)
+  5 pts   RA Proper Motion v. DEC Proper Motion
+  5 pts   RA Proper Motion or G Mag v. Parallax
+  5 pts   RA v. DEC
+
+4. Cuts to select members of the cluster (20 pts)
+  10 pts  Makes sensible choices to cut data based on proper motion, parallax, or CMD
+  10 pts  Thorough description or visualization of cuts and justification
+
+5. Cluster velocity dispersion (20 pts)
+  5 pts   Makes a successful measurement of the cluster's velocity dispersion
+  5 pts   Makes a successful measurement of the tidal radius of the cluster
+  10 pts  Description / visualization of the above tasks
+
+6. Virial Theorem (10 pts)
+  10 pts  Correctly applies the Virial Theorem to obtain the mass of the cluster
+
+7. Proposal (20 pts)
+  5 pts   Introduction, overview, background, or justification for proposal (MOTIVATION)
+  5 pts   Description of current state of field progress (PROBLEM)
+  5 pts   Methods, proposed procedure, or techniques (SOLUTION)
+  5 pts   Technical descriptions, figures, abstract, etc (OTHER)
+
+  
