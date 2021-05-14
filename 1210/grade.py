@@ -42,23 +42,45 @@ def build_matrix(question):
     matrix = np.array([row for row in tdm.rows()])
     words = matrix[0]
     weights = np.sum(matrix[1:].astype(np.int), axis=0)
-    weights = weights / np.sum(weights)
-    return matrix, words, weights
+    mask = weights > np.mean(weights) + np.std(weights)
+    weights = weights[mask] / np.sum(weights[mask])
+    return matrix.T[mask].T, words[mask], weights
     
 def evaluate(matrix, weights):
     raw_scores = np.zeros(len(matrix[1:]))
     for i, row in enumerate(matrix[1:].astype(np.int)):
-        wordbool = np.array([row > 0][0]).astype(np.int)
+        wordbool = np.array(row > 0).astype(np.int)
         raw_scores[i] = np.sum(wordbool*weights)
 
     # Build bins
     mean = np.mean(raw_scores[raw_scores != 0])
     std = np.std(raw_scores[raw_scores != 0])
-    bins = np.linspace(mean-2.5*std)
+    bins = np.linspace(mean-2*std, mean, 3)
+    scores = np.digitize(raw_scores, bins)
+    return scores
+
+def effort(question):
+    raw_scores = np.zeros(len(question))
+    for i, response in enumerate(question):
+        raw_scores[i] = len(nltk.word_tokenize(response))
+
+    # Build bins
+    mean = np.mean(raw_scores[raw_scores != 0])
+    std = np.std(raw_scores[raw_scores != 0])
+    bins = np.linspace(3, mean-0.5*std, 2)
+    scores = np.digitize(raw_scores, bins)
+    return scores
 
 if __name__ == '__main__':
     data = read_sheet('final__astr1210_spring_2021__regular_100_minutes_-1621011014605.xlsx')
     responses = get_responses(data)
     for question in responses:
         matrix, words, weights = build_matrix(question)
-        evaluate(matrix, weights)
+        content_scores = evaluate(matrix, weights)
+        effort_scores = effort(question)
+        for i, response in enumerate(question):
+            print("\nCONTENT SCORE: {}".format(content_scores[i]))
+            print("EFFORT SCORE: {}".format(effort_scores[i]))
+            print(response)
+            print()
+        pdb.set_trace()
