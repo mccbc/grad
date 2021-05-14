@@ -41,14 +41,24 @@ def build_matrix(question):
        tdm.add_doc(' '.join(tokenize(response)))
     matrix = np.array([row for row in tdm.rows()])
     words = matrix[0]
-    weights = matrix[1:].astype(np.int)
-    return tdm, weights
+    weights = np.sum(matrix[1:].astype(np.int), axis=0)
+    weights = weights / np.sum(weights)
+    return matrix, words, weights
     
-#def evaluate(matrix):
-    
+def evaluate(matrix, weights):
+    raw_scores = np.zeros(len(matrix[1:]))
+    for i, row in enumerate(matrix[1:].astype(np.int)):
+        wordbool = np.array([row > 0][0]).astype(np.int)
+        raw_scores[i] = np.sum(wordbool*weights)
+
+    # Build bins
+    mean = np.mean(raw_scores[raw_scores != 0])
+    std = np.std(raw_scores[raw_scores != 0])
+    bins = np.linspace(mean-2.5*std)
 
 if __name__ == '__main__':
     data = read_sheet('final__astr1210_spring_2021__regular_100_minutes_-1621011014605.xlsx')
     responses = get_responses(data)
     for question in responses:
-        build_matrix(question)
+        matrix, words, weights = build_matrix(question)
+        evaluate(matrix, weights)
