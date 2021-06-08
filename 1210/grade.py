@@ -18,7 +18,7 @@ def read_sheet(filename):
     diff = np.diff(groups.tolist())
     inds = np.where(diff == 1)[0]
 
-    data = dataframe[inds[-2]+2:inds[-1]+1]
+    data = dataframe[inds[-1]+2:]
     return data
 
 def get_responses(data):
@@ -74,13 +74,16 @@ def effort(question):
 if __name__ == '__main__':
     data = read_sheet('final__astr1210_spring_2021__regular_100_minutes_-1621011014605.xlsx')
     responses = get_responses(data)
-    for question in responses:
+
+    for i, question in enumerate(responses):
+        print("\nQUESTION", i)
         matrix, words, weights = build_matrix(question)
         content_scores = evaluate(matrix, weights)
         effort_scores = effort(question)
         for i, response in enumerate(question):
-            print("\nCONTENT SCORE: {}".format(content_scores[i]))
-            print("EFFORT SCORE: {}".format(effort_scores[i]))
-            print(response)
-            print()
-        pdb.set_trace()
+            #print("\nCONTENT SCORE: {}".format(content_scores[i]))
+            #print("EFFORT SCORE: {}".format(effort_scores[i]))
+            #print(response)
+            #print()
+            print(content_scores[i]+effort_scores[i])
+        input("Press ENTER to continue.")

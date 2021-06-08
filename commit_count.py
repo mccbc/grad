@@ -45,7 +45,7 @@ for i, line in enumerate(lines):
             print('Repository: ', lines[i - 1].split('href="/' + your_username
                    + '/')[1].split('/commits?')[0])
             print(lines[i])
-            commits += int(lines[i].lstrip()[0])
+            commits += int(lines[i].lstrip().split(' commits')[0])
         except BaseException:
             pass
 
