@@ -1,0 +1,366 @@
+
+Compilers and interpreters
+ - Compiler produces a binary for a given platform (cpu + OS), which links to 
+   an executable
+ - Interpreter functions line by line
+
+Compiled languages
+ - Stricter about typing
+
+Interpreted languages
+ - Looser about typing, very slow
+
+VARIABLES
+=========
+Case sensitive and statically typed in C++.
+
+Type of variable must be declared, and cannot be changed
+    Different than Python:
+        Dynamic typing - type can change
+        Typed by inference - interpreter assigns type based on context
+
+INT
+---
+An int is of size 32 bits.
+  a "long" can be 32 or 64 bits based on the compiler or platform.
+  a "short" is 16 bits
+  a "long long" is always 64 bits
+
+FLOAT
+-----
+Represented by a sign, exponent, and mantissa (significand)
+IEEE standard 754 defines representation and operation
+About 7-8 decimal digits of precision
+
+DOUBLE
+------
+15-17 decimal digits of precision
+
+BOOLEAN
+-------
+Represents truth value.
+  true
+  false
+Lowercase in C++
+
+CHAR
+----
+Single character, 8 bits per character
+  Fixed length must be declared at compile time, eg char[8]
+
+STRING
+------
+Sequence of characters of variable length
+Requires adding the header
+
+    #include <string.h>
+
+str.size()
+str1+str2    (concatenate)
+
+LITERAL
+-------
+Specified values, eg 3, 3.2, true
+They have a type but it is determined by the format rather than a declaration
+
+
+VARIABLE DECLARATIONS
+=====================
+
+int i,j,k;
+
+Can also initialize at compile time
+
+int count=0;
+
+
+POINTERS AND REFERENCES
+=======================
+
+A pointer is a variable that points to a location in memory.
+
+Declared with *.
+
+  float *x, y
+
+x is a pointer, y is a variable.
+
+The value of a pointer is obtained by the deference operator &
+
+  y=99.;
+  x=&y; //x now points to the location of y
+  cout<<x<<" "<<*x<<" "<<y<<"\n" //will print 99 twice, two different ways
+
+&y is its location in memory. x is the memory location. *x is the value that is
+stored in that memory location.
+
+
+CONST
+=====
+Can declare a variable type that cannot be changed, and if it is the compiler
+will throw an error.
+
+
+TYPE CONVERSIONS
+================
+Lowest to highest, types are integer, float, double, complex.
+Will promote types up in rank until all are consistent (called "casting")
+Strings can be cast to numbers and vice versa with a "stringstream"
+
+  R=(float) I;
+  I=(int) R; //demotion
+  D=(double) R; //promotion
+
+To promote a float to a double, it'll take the bits it has for the significand
+and fill the rest with zeros, since it doesn't have information there.
+
+
+STRING BUFFERS
+==============
+
+Convert a number to a string:
+
+  #include <iostream>
+  #include <string>
+  #include <sstream>
+  using namespace std;
+  int main() 
+  {
+    string age;
+    int iage;
+    iage =39;
+    stringstream ss;
+    ss<<iage; // loading iage into buffer
+    age=ss.str() // extract the string from the buffer and load it into "age"
+  }
+
+
+ARITHMATIC OPERATIONS
+=====================
+
+Integer operators
+  2/3 always yields zero, which is the integer part of that division
+  Remainder can be obtained from 2%3
+
+
+LOGIC
+-----
+
+Negation: !
+AND: &&
+OR: ||
+
+Numeric:
+  equals ==
+  not equal !=
+  strictly less than <
+  strictly greater than >
+  less than or equal to <=
+  greater than or equal to >=
+
+These logical operators have their own ranking as well.
+
+
+EXPRESSIONS
+-----------
+Things that the compiler can evaluate.
+
+  a+3*c
+  A || B
+  func(a,b)
+
+
+STATEMENTS
+----------
+  Terminate with a semicolon. Space is not read, but should be used for clarity
+
+Convention:
+
+  if (cond) 
+  {
+    statement
+  }
+
+To get command line arguments:
+
+  int main (int argc, char ** argv)
+  {
+    std::cout <<"test\n";
+    return 0;
+  }
+
+
+SUBSTRINGS
+----------
+
+  title="This is a string";
+  title.substr(1,3)
+
+yields "his"
+
+Note that the index 3 is included in C++, unlike Python.
+
+
+SWITCHES
+--------
+Many else ifs can be replaced by
+
+  switch (expression)
+  {
+  case const value0:
+    code;
+    break;
+  case const value1;
+    code;
+    break;
+  default:
+    code; 
+  }
+
+
+FOR
+---
+
+  for (int i=l;i<=u;i+=s)
+  {
+    code;
+  }
+
+i: loop variable
+l: lower bound
+u: upper bound
+s: stride. Use ++i for a stride of 1
+
+BREAK
+-----
+Leave loop
+
+CONTINUE
+--------
+Skip this iteration and go to the next one
+
+WHILE
+-----
+
+  while (logicalexpression) 
+  {
+    code;
+  }
+
+REPEAT UNTIL
+------------
+
+  do {
+    statement;
+    if (logicalexpression) break;
+  }
+
+
+ARRAYS
+------
+
+An array ontains data of the same type with each scalar element addressed by 
+indexing into the array.
+
+An array has one or more dimensions. The bounds are the lowest and highest values.
+
+Must be declared by type and either by size or by some indication of the number of dimensions.
+
+  float a[100];
+  int M[10][10];
+
+Row-major ordering is used. 
+Move left to right
+
+  A[i,j,k] //do for i... for j... for k...
+
+C++ will let you access elements outside of the array size. No warnings.
+Most of the time this will lead to a segfault, but sometimes it will just make
+a garbage result.
+
+  int nrows, ncols;
+  float **A;
+  A=new float*[nrows];
+  for (int i=0;i<nrows) goddammit stop scrolling so fast
+
+
+CONTAINERS
+----------
+A container is a data structure that can contain other types. 
+In 1D you can use a vector, which can be sized dynamically and contain 
+multiple types.
+
+Boost arrays (a popular extension) contains lots of containers that are useful
+
+Array-making example:
+
+#include <iostream>
+using namespace std;
+int main() {
+    int a[10];
+    int size = sizeof(a)/sizeof(a[0]);
+    cout << size << "\n";
+    a[3]=11;
+    for (int i=0; i<size; ++i) {
+        cout << a[i] << " ";
+    }
+    cout << "\n\n";
+
+    int m=4, n=5;
+    float **A;
+    A=new float*[n];
+    for (int i=0; i<m; ++i) {
+        A[i]=new float[n];
+    }
+    for (int i=0; i<m; ++i) {
+        for (int j=0; j<n; ++j) {
+            A[i][j] = i+j;
+        }
+    }
+    for (int i=0; i<m; ++i) {
+        for (int j=0; j<n; ++j) {
+            cout << A[i][j] << " ";
+        }
+        cout << "\n";
+    }
+}
+
+READING FROM COMMAND LINE
+=========================
+
+Reads in as string only. Therefore, if you want a number, must use a numerical
+type using string streams.
+
+#include <iostream>
+#include <sstream>
+using namespace std;
+int main(int argc, char **argv) {
+  float value;
+  if ( argc>1) {
+    stringstream inputValue;
+    inputValue<<argv[1];
+    inputValue>>value;
+  }
+  return 0;
+}
+
+
+MANIPULATING HEADERS
+====================
+
+Ex: print things in scientific notation with specific prevision until fixed
+is set again.
+Accomplished through iomanip.
+
+#include <iostream>
+#include <iomanip>
+using namespace std;
+int main() {
+  float x=.00001, y=17., z=10000.;
+  cout<<setprecision(16)<<z/y<<"\n";
+  cout<<setw(20)<<setfill('*')<<left<<z<<"\n";
+  cout<<scientific<<x<<" "<<z<<"\n";
+  cout<<scientific<<x<<" "<<fixed<<z<<"\n";
+}
+
+
